@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="12" passed="12">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="602" started-at="2017-02-08T10:44:23Z" finished-at="2017-02-08T10:44:23Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="602" started-at="2017-02-08T10:44:23Z" finished-at="2017-02-08T10:44:23Z">
+      <class name="com.epam.catalog.dao.FilmDAOTest">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeClass" is-config="true" duration-ms="348" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="addNewsTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="addNewsTest" duration-ms="69" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addNewsTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByAuthorNegativeTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByAuthorNegativeTest" duration-ms="15" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByAuthorNegativeTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="findAllTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findAllTest" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findAllTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByAuthorTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByAuthorTest" duration-ms="16" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByAuthorTest -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="findByGenreNegativeTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByGenreNegativeTest" duration-ms="21" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByGenreNegativeTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="findByTextNegativeTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByTextNegativeTest" duration-ms="16" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByTextNegativeTest -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByGenreTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByGenreTest" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByGenreTest -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByTextTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByTextTest" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByTextTest -->
+        <test-method status="PASS" signature="findByTitleNegativeTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByTitleNegativeTest" duration-ms="15" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByTitleNegativeTest -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByTitleTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByTitleTest" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByTitleTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="findByYearTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByYearTest" duration-ms="15" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByYearTest -->
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="findByYearNegativeTest()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="findByYearNegativeTest" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- findByYearNegativeTest -->
+        <test-method status="PASS" signature="afterMethod()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterMethod" is-config="true" duration-ms="0" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterMethod -->
+        <test-method status="PASS" signature="afterClass()[pri:0, instance:com.epam.catalog.dao.FilmDAOTest@5f375618]" name="afterClass" is-config="true" duration-ms="23" started-at="2017-02-08T13:44:23Z" finished-at="2017-02-08T13:44:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+      </class> <!-- com.epam.catalog.dao.FilmDAOTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
