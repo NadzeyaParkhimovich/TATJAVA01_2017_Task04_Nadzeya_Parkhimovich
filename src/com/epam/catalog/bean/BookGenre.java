@@ -1,4 +1,4 @@
-package com.epam.catalog.beans;
+package com.epam.catalog.bean;
 
 public enum BookGenre {
 	FANTAZY,

@@ -13,15 +13,15 @@ public class AddNews implements Command{
 		Service service;
 		String parts[] = request.split("@");
 		String news = request.substring(request.indexOf('@', 9)+1);
-		String response = "";
+		String response = "Adding is OK";
 		if (parts.length >= 3) {
 			if(parts[1].equalsIgnoreCase("film")) {
 				
 				service = sfactory.getFilmService();
 				try {
 					service.addNews(news);
-					response = "Adding is OK";
 				} catch (ServiceExeption e) {
+					//log
 					response = "Sorry, we have problems in adding news";
 				}
 			} else {
@@ -30,8 +30,8 @@ public class AddNews implements Command{
 					service = sfactory.getBookSerice();
 					try {
 						service.addNews(news);
-						response = "Adding is OK";
 					} catch (ServiceExeption e) {
+						//log
 						response = "Sorry, we have problems in adding news";
 					}
 				} else {
@@ -40,8 +40,8 @@ public class AddNews implements Command{
 					service = sfactory.getDiskService();
 					try {
 						service.addNews(news);
-						response = "Adding is OK";
 					} catch (ServiceExeption e) {
+						//log
 						response = "Sorry, we have problems in adding news";
 					}
 				

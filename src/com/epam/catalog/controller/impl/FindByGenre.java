@@ -1,10 +1,5 @@
 package com.epam.catalog.controller.impl;
 
-import java.util.ArrayList;
-
-import com.epam.catalog.beans.Book;
-import com.epam.catalog.beans.Disk;
-import com.epam.catalog.beans.Film;
 import com.epam.catalog.controller.Command;
 import com.epam.catalog.service.Service;
 import com.epam.catalog.service.ServiceExeption;
@@ -23,11 +18,10 @@ public class FindByGenre implements Command{
 				
 				service = sfactory.getFilmService();
 				try {
-					response = "Genre: " + parts[2] + "\nTitle Author Year Text Genre\n";
-					for(Film film : (ArrayList<Film>)service.findByGenre(parts[2])) {
-						response += film.getTitle() + " " + film.getAuthor() + " " + film.getYear() + " " + film.getText() + " " + film.getGenre() + "\n";
-					}
+					response = Util.responseCreator(service.findByGenre(parts[2]), "Genre", parts[2]);
+					
 				} catch (ServiceExeption e) {
+					//log
 					response = "Sorry, we have problems in finding films by Genre";
 				}
 			} else {
@@ -35,31 +29,27 @@ public class FindByGenre implements Command{
 					
 					service = sfactory.getBookSerice();
 					try {
-						response = "Genre: " + parts[2] + "\nTitle Author Year Text Genre NumberOfPages\n";
-						for(Book book : (ArrayList<Book>)service.findByGenre(parts[2])) {
-							response += book.getTitle() + " " + book.getAuthor() + " " + book.getYear() + " " + book.getText() + " " + book.getGenre() + " " + book.getNumberOfPages() + "\n";
-						}
+						response = Util.responseCreator(service.findByGenre(parts[2]), "Genre", parts[2]);
 					} catch (ServiceExeption e) {
+						//log
 						response = "Sorry, we have problems in finding books by Genre";
 					}
 				} else {
 					if(parts[1].equalsIgnoreCase("disk")) {
 					
-					service = sfactory.getDiskService();
-					try {
-						response = "Genre: " + parts[2] + "\nTitle Author Year Text Genre\n";
-						for(Disk disk : (ArrayList<Disk>)service.findByGenre(parts[2])) {
-							response += disk.getTitle() + " " + disk.getAuthor() + " " + disk.getYear() + " " + disk.getText() + " " + disk.getGenre() + "\n";
+						service = sfactory.getDiskService();
+						try {
+							response = Util.responseCreator(service.findByGenre(parts[2]), "Genre", parts[2]);
+						} catch (ServiceExeption e) {
+							//log
+							response = "Sorry, we have problems in finding disks by Genre";
 						}
-					} catch (ServiceExeption e) {
-						response = "Sorry, we have problems in finding disks by Genre";
-					}
 				
-				} else {
-					response = "Sorry, incorrect request";
+					} else {
+						response = "Sorry, incorrect request";
+					}
 				}
 			}
-		}
 		}else {
 		response = "Sorry, incorrect request";
 	}

@@ -1,8 +1,9 @@
 package com.epam.catalog.dao;
 
 import org.testng.annotations.Test;
-import com.epam.catalog.beans.Disk;
-import com.epam.catalog.beans.MusicGenre;
+
+import com.epam.catalog.bean.Disk;
+import com.epam.catalog.bean.MusicGenre;
 import com.epam.catalog.dao.impl.DiskDAO;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;

@@ -10,13 +10,13 @@ public class Exit implements Command{
 	@Override
 	public String execute(String request) {
 		
-		String response = "";
+		String response = "Goodbye!";
 		ServiceFactory sfactory = ServiceFactory.getInstance();
 		Service service = sfactory.getBookSerice();
 		try {
 			service.close();
 		} catch (ServiceExeption e) {
-			response = "Error in exit";
+			//log
 		}
 		return response;
 	}

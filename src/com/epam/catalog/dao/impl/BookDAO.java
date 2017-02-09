@@ -3,9 +3,10 @@ package com.epam.catalog.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import com.epam.catalog.beans.Book;
-import com.epam.catalog.beans.BookGenre;
-import com.epam.catalog.beans.News;
+
+import com.epam.catalog.bean.Book;
+import com.epam.catalog.bean.BookGenre;
+import com.epam.catalog.bean.News;
 import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 

@@ -2,7 +2,7 @@ package com.epam.catalog.dao;
 
 import java.util.ArrayList;
 
-import com.epam.catalog.beans.News;
+import com.epam.catalog.bean.News;
 
 public interface NewsDAO {
 	

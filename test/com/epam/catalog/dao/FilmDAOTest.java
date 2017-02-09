@@ -1,8 +1,9 @@
 package com.epam.catalog.dao;
 
 import org.testng.annotations.Test;
-import com.epam.catalog.beans.Film;
-import com.epam.catalog.beans.FilmGenre;
+
+import com.epam.catalog.bean.Film;
+import com.epam.catalog.bean.FilmGenre;
 import com.epam.catalog.dao.impl.FilmDAO;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;

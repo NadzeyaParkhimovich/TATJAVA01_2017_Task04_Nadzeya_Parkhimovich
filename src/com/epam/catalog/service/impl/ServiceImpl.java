@@ -6,13 +6,13 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.epam.catalog.beans.Book;
-import com.epam.catalog.beans.BookGenre;
-import com.epam.catalog.beans.Disk;
-import com.epam.catalog.beans.Film;
-import com.epam.catalog.beans.FilmGenre;
-import com.epam.catalog.beans.MusicGenre;
-import com.epam.catalog.beans.News;
+import com.epam.catalog.bean.Book;
+import com.epam.catalog.bean.BookGenre;
+import com.epam.catalog.bean.Disk;
+import com.epam.catalog.bean.Film;
+import com.epam.catalog.bean.FilmGenre;
+import com.epam.catalog.bean.MusicGenre;
+import com.epam.catalog.bean.News;
 import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 import com.epam.catalog.service.Service;
@@ -20,6 +20,7 @@ import com.epam.catalog.service.ServiceExeption;
 
 public class ServiceImpl implements Service{
 
+	private final static String  STRING_VERIFICATION = "[\\s\\w–∞-—è—ë–ê-–Ø–Å-]{0,45}";
 	private NewsDAO dao;
 	String type;
 	
@@ -223,7 +224,7 @@ public class ServiceImpl implements Service{
 	}
 	
 	private boolean stringChecker(String str) {
-		Matcher matcher = Pattern.compile("[\\w‡-ˇ∏¿-ﬂ®-]{0,45}").matcher(str);
+		Matcher matcher = Pattern.compile(STRING_VERIFICATION).matcher(str);
 		return matcher.matches();
 	}
 	

@@ -1,7 +1,6 @@
 package com.epam.catalog.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,9 +34,6 @@ public class DBWorker {
 	
 	public ResultSet getDBData(String query) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ConnectionPoolException
 	{
-		
-		//Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//connect = DriverManager.getConnection("jdbc:mysql://localhost/catalog?user=root&password=admin&useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&connectionCollation=utf8_general_ci");
 		cp = ConnectionPool.getInstance();
 		connect = cp.takeConnection();
 		statement = connect.createStatement();
@@ -51,8 +47,6 @@ public class DBWorker {
 	public Integer changeDBData(String query) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, ConnectionPoolException
 	{
 		
-		//Class.forName("com.mysql.jdbc.Driver").newInstance();
-		//connect = DriverManager.getConnection("jdbc:mysql://localhost/catalog?user=root&password=admin&useUnicode=true&characterEncoding=UTF-8&characterSetResults=utf8&connectionCollation=utf8_general_ci");
 		cp = ConnectionPool.getInstance();
 		connect = cp.takeConnection();
 		statement = connect.createStatement();
