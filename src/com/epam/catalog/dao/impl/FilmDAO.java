@@ -1,142 +1,120 @@
 package com.epam.catalog.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.epam.catalog.bean.Film;
-import com.epam.catalog.bean.FilmGenre;
 import com.epam.catalog.bean.News;
+import com.epam.catalog.bean.genre.FilmGenre;
 import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 
 public class FilmDAO implements NewsDAO {
 		
-	DBWorker db = DBWorker.getInstance();
-	ArrayList<Film> films = new ArrayList<Film>();
-	ResultSet result;
+	private ConnectionPool cp;
+	private Connection con;
+	private PreparedStatement ps;
+	private Statement st;
+	
+	private final static String select_all = "SELECT * FROM `film`";
+	private final static String select_by = "SELECT * FROM `film` WHERE `";
+	private final static String insert = "INSERT INTO `film` (`title`,`author`,`year`,`text`,`genre`) VALUES (?,?,?,?,?)";
 	
 	public ArrayList<Film> findAll() throws DAOException {
-		films.clear();
 		try {
-			result = db.getDBData("SELECT * FROM `film`");
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+			cp = ConnectionPool.getInstance();
+			con = cp.takeConnection();
+			st = con.createStatement();
+			return filmsCreator(st.executeQuery(select_all));
+			
+		} catch (ConnectionPoolException | SQLException e) {
+			
 			throw new DAOException(e);
+			
+		} finally {
+			try {
+				cp.returnConnection(con);
+			} catch (ConnectionPoolException e) {
+				//log
+			}
 		}
-		
-		return films;
 	}
 	
-	public ArrayList<Film> findByTitle(String title) throws DAOException {
-		films.clear();
+	public ArrayList<Film> findBy(String type, String value) throws DAOException {
 		try {
-			result = db.getDBData("SELECT * FROM `film` WHERE `title`=\"" + title +"\"");
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+			cp = ConnectionPool.getInstance();
+			con = cp.takeConnection();
+			ps = con.prepareStatement(select_by + type + "`= ?");
+			ps.setString(1, value);
+			return filmsCreator(ps.executeQuery());
+			
+		}catch (ConnectionPoolException | SQLException e) {
 			throw new DAOException(e);
-		}
-		
-		return films;
-	}
-
-	public ArrayList<Film> findByAuthor(String author) throws DAOException {
-		films.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `film` WHERE `author`=\"" + author + "\"");
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
+		}finally {
+			try {
+				cp.returnConnection(con);
+			} catch (ConnectionPoolException e) {
+				//log
 			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
 		}
-		
-		return films;
-	}
-	
-	public ArrayList<Film> findByYear(int year) throws DAOException {
-		films.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `film` WHERE `year`=" + year);
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return films;
-	}
-	
-	public ArrayList<Film> findByText(String text) throws DAOException {
-		films.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `film` WHERE `text`=\"" + text + "\"");
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return films;
-	}
-	
-	public ArrayList<Film> findByGenre(String genre) throws DAOException {
-		films.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `film` WHERE `genre`=\"" + genre + "\"");
-			while (result.next()) {
-				Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
-				films.add(film);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return films;
 	}
 	
 	public void addNews(News news) throws DAOException {
 		if (news instanceof Film) {
 			Film film = (Film)news;
-			String query = "INSERT INTO `film` (`title`,`author`,`year`,`text`,`genre`) "
-					+ "VALUES (\"" + film.getTitle() + "\",\"" + film.getAuthor() + "\","
-					+ film.getYear() + ",\"" + film.getText() + "\",\"" + film.getGenre() + "\")";
 			try {
-				if(db.changeDBData(query) != 1) {
-					throw new DAOException("Problem in insert file");
-				}
-			} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+				cp = ConnectionPool.getInstance();
+				con = cp.takeConnection();
+				ps = con.prepareStatement(insert);
+				ps.setString(1, film.getTitle());
+				ps.setString(2, film.getAuthor());
+				ps.setInt(3, film.getYear());
+				ps.setString(4, film.getText());
+				ps.setString(5, film.getGenre().toString());
+				ps.executeUpdate();
+			}catch (ConnectionPoolException | SQLException e) {
 				throw new DAOException(e);
+			}finally {
+				try {
+					cp.returnConnection(con);
+				} catch (ConnectionPoolException e) {
+					//log
+				}
 			}
 		} else {
 			throw new DAOException("Incorrect type of news");
 		}
-		
 	}
 	
-	public void close() throws DAOException {
+	public void closeConnection() {	
 		try {
-			db.closeConnection();
+			if (st != null) {
+				st.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (cp != null) {
+				cp.dispose();
+			}
 		} catch (SQLException e) {
-			throw new DAOException(e);
+			//log
 		}
 	}
+	
+	private ArrayList<Film> filmsCreator(ResultSet result) throws SQLException {
+		ArrayList<Film> films = new ArrayList<Film>();
+		while (result.next()) {
+			Film film = new Film(result.getString("title"),result.getString("author"),result.getInt("year"),
+					result.getString("text"),FilmGenre.valueOf(result.getString("genre")));
+			films.add(film);
+		}
+		return films;
+	}
+	
 		
 }

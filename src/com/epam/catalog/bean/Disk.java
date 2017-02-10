@@ -2,6 +2,8 @@ package com.epam.catalog.bean;
 
 import java.io.Serializable;
 
+import com.epam.catalog.bean.genre.MusicGenre;
+
 public class Disk extends News implements Serializable{
 
 	private static final long serialVersionUID = 1L;

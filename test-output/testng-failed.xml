@@ -7,9 +7,9 @@
         <methods>
           <include name="afterMethod"/>
           <include name="afterClass"/>
-          <include name="findAllTest"/>
           <include name="beforeMethod"/>
           <include name="beforeClass"/>
+          <include name="findByGenreTest"/>
         </methods>
       </class> <!-- com.epam.catalog.dao.BookDAOTest -->
     </classes>

@@ -5,7 +5,6 @@ package com.epam.catalog.dao.impl;
 import java.sql.Connection; 
 import java.sql.DriverManager; 
 import java.sql.SQLException; 
-import java.util.Locale; 
 import java.util.concurrent.ArrayBlockingQueue; 
 import java.util.concurrent.BlockingQueue; 
 
@@ -23,7 +22,6 @@ public final class ConnectionPool {
  private final static int POLL_SIZE = 5; 
 
  private ConnectionPool() throws ConnectionPoolException {   
-		 
 	 initPoolData(); 
   } 
  
@@ -36,11 +34,13 @@ public final class ConnectionPool {
  
  public void initPoolData() throws ConnectionPoolException {   
 	 
-	 Locale.setDefault(Locale.ENGLISH); 
 	 try {    
-		 Class.forName(DRIVER_NAME);    
+		 
+		 Class.forName(DRIVER_NAME);   
+		 
 		 givenAwayConQueue = new ArrayBlockingQueue<Connection>(POLL_SIZE);    
 		 connectionQueue = new ArrayBlockingQueue<Connection>(POLL_SIZE);    
+		 
 		 for (int i = 0; i < POLL_SIZE; i++) {     
 			 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 			 connectionQueue.add(connection);
@@ -53,17 +53,14 @@ public final class ConnectionPool {
   } 
  
  public void dispose() {   
-	 clearConnectionQueue(); 
- } 
- 
- private void clearConnectionQueue() {   
 	 try {    
 		 closeConnectionsQueue(givenAwayConQueue);    
 		 closeConnectionsQueue(connectionQueue);   
-		 } catch (SQLException e) {    
-			 // logger.log(Level.ERROR, "Error closing the connection.", e);   
-		 }  
-	 } 
+	} catch (SQLException e) {    
+		// logger.log(Level.ERROR, "Error closing the connection.", e);   
+	} 
+ } 
+
 
  
  public Connection takeConnection() throws ConnectionPoolException {   
@@ -94,10 +91,7 @@ public final class ConnectionPool {
 
  private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws SQLException  {   
 	 Connection connection;   
-	 while ((connection = queue.poll()) != null) {
-		 if (!connection.getAutoCommit()) {     
-			 connection.commit();    
-		}    
+	 while ((connection = queue.poll()) != null) {  
 		connection.close(); 
 	 }  
  }

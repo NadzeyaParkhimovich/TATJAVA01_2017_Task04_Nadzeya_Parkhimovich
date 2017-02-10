@@ -1,158 +1,117 @@
 package com.epam.catalog.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.epam.catalog.bean.Book;
-import com.epam.catalog.bean.BookGenre;
 import com.epam.catalog.bean.News;
+import com.epam.catalog.bean.genre.BookGenre;
 import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 
 public class BookDAO implements NewsDAO{
 		
-	DBWorker db = DBWorker.getInstance();
-	ArrayList<Book> books = new ArrayList<Book>();
-	ResultSet result;
+	private ConnectionPool cp;
+	private Connection con;
+	private PreparedStatement ps;
+	private Statement st;
+	
+	private final static String select_all = "SELECT * FROM `book`";
+	private final static String select_by = "SELECT * FROM `book` WHERE `";
+	private final static String insert = "INSERT INTO `book` (`title`,`author`,`year`,`text`,`genre`,`numberOfPages`) VALUES (?,?,?,?,?,?)";
 	
 	public ArrayList<Book> findAll() throws DAOException {
-		books.clear();
 		try {
-			result = db.getDBData("SELECT * FROM `book`");
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+			cp = ConnectionPool.getInstance();
+			con = cp.takeConnection();
+			st = con.createStatement();
+			return booksCreator(st.executeQuery(select_all));
+		} catch (ConnectionPoolException | SQLException e) {
 			throw new DAOException(e);
+		} finally {
+			try {
+				cp.returnConnection(con);
+			} catch (ConnectionPoolException e) {
+				//log
+			}
 		}
-		
-		return books;
 	}
 	
-	public ArrayList<Book> findByTitle(String title) throws DAOException {
-		books.clear();
+	public ArrayList<Book> findBy(String type, String value) throws DAOException {
 		try {
-			result = db.getDBData("SELECT * FROM `book` WHERE `title`=\"" + title +"\"");
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+			cp = ConnectionPool.getInstance();
+			con = cp.takeConnection();
+			ps = con.prepareStatement(select_by + type + "`= ?");
+			ps.setString(1, value);
+			return booksCreator(ps.executeQuery());
+			
+		}catch (ConnectionPoolException | SQLException e) {
 			throw new DAOException(e);
-		}
-		
-		return books;
-	}
-
-	public ArrayList<Book> findByAuthor(String author) throws DAOException {
-		books.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `book` WHERE `author`=\"" + author + "\"");
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
+		}finally {
+			try {
+				cp.returnConnection(con);
+			} catch (ConnectionPoolException e) {
+				//log
 			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
 		}
-		
-		return books;
-	}
-	
-	public ArrayList<Book> findByYear(int year) throws DAOException {
-		books.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `book` WHERE `year`=" + year);
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return books;
-	}
-	
-	public ArrayList<Book> findByText(String text) throws DAOException {
-		books.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `Book` WHERE `text`=\"" + text + "\"");
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return books;
-	}
-	
-	public ArrayList<Book> findByGenre(String genre) throws DAOException {
-		books.clear();
-		try {
-			while (result.next()) {
-				result = db.getDBData("SELECT * FROM `Book` WHERE `genre`=\"" + genre + "\"");
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return books;
-	}
-	
-	public ArrayList<Book> findByPages(int numberOfPages) throws DAOException {
-		books.clear();
-		try {
-			result = db.getDBData("SELECT * FROM `Book` WHERE `numberOfPages`=" + numberOfPages);
-			while (result.next()) {
-				Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
-						result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
-				books.add(book);
-			}
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
-			throw new DAOException(e);
-		}
-		
-		return books;
 	}
 	
 	public void addNews(News news) throws DAOException {
 		if (news instanceof Book) {
 			Book book = (Book)news;
-			String query = "INSERT INTO `book` (`title`,`author`,`year`,`text`,`genre`,`numberOfPages`) "
-					+ "VALUES (\"" + book.getTitle() + "\",\"" + book.getAuthor() + "\","
-					+ book.getYear() + ",\"" + book.getText() + "\",\"" + book.getGenre() + "\"," + book.getNumberOfPages() + ")";
 			try {
-				if(db.changeDBData(query) != 1) {
-					throw new DAOException("Problem in insert file");
-				}
-			} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException | ConnectionPoolException e) {
+				cp = ConnectionPool.getInstance();
+				con = cp.takeConnection();
+				ps = con.prepareStatement(insert);
+				ps.setString(1, book.getTitle());
+				ps.setString(2, book.getAuthor());
+				ps.setInt(3, book.getYear());
+				ps.setString(4, book.getText());
+				ps.setString(5, book.getGenre().toString());
+				ps.setInt(6, book.getNumberOfPages());
+				ps.executeUpdate();
+			}catch (ConnectionPoolException | SQLException e) {
 				throw new DAOException(e);
+			}finally {
+				try {
+					cp.returnConnection(con);
+				} catch (ConnectionPoolException e) {
+					//log
+				}
 			}
 		} else {
 			throw new DAOException("Incorrect type of news");
 		}
-		
 	}
 	
-	public void close() throws DAOException {
+	public void closeConnection() {	
 		try {
-			db.closeConnection();
+			if (st != null) {
+				st.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
+			if (cp != null) {
+				cp.dispose();
+			}
 		} catch (SQLException e) {
-			throw new DAOException(e);
+			//log
 		}
+	}
+	
+	private ArrayList<Book> booksCreator(ResultSet result) throws SQLException {
+		ArrayList<Book> books = new ArrayList<Book>();
+		while (result.next()) {
+			Book book = new Book(result.getString("title"),result.getString("author"),result.getInt("year"),
+					result.getString("text"),BookGenre.valueOf(result.getString("genre")),result.getInt("numberOfPages"));
+			books.add(book);
+		}
+		return books;
 	}
 		
 }

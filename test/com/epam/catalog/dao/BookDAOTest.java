@@ -3,7 +3,7 @@ package com.epam.catalog.dao;
 import org.testng.annotations.Test;
 
 import com.epam.catalog.bean.Book;
-import com.epam.catalog.bean.BookGenre;
+import com.epam.catalog.bean.genre.BookGenre;
 import com.epam.catalog.dao.impl.BookDAO;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -20,21 +20,21 @@ import org.testng.Assert;
 
 public class BookDAOTest {
 	
-	Statement statement;
-	Connection connect;
-	ResultSet resultSet;
-	BookDAO bookdao;
-	ArrayList<Book> books = new ArrayList<Book>();
-	int id;
+	private Statement statement;
+	private Connection connect;
+	private ResultSet resultSet;
+	private BookDAO bookdao;
+	private ArrayList<Book> books = new ArrayList<Book>();
+	private int id;
 	
-	String selectQuery = "SELECT * FROM `book`";
-	String updateQuery = "INSERT INTO `book` (`title`,`author`,`year`,`text`,`genre`,`numberOfPages`) VALUES (\"The Adventures of Tom Sawyer\",\"Mark Twain\",1876,\"test\",\"HISTORY\",335)";
-	String deleteQuery = "DELETE FROM `book` WHERE `id`=";
+	private final static String selectQuery = "SELECT * FROM `book`";
+	private final static String updateQuery = "INSERT INTO `book` (`title`,`author`,`year`,`text`,`genre`,`numberOfPages`) VALUES (\"The Adventures of Tom Sawyer\",\"Mark Twain\",1876,\"test\",\"HISTORY\",335)";
+	private final static String deleteQuery = "DELETE FROM `book` WHERE `id`=";
 	
 	
 	@Test
 	public void findByTitleTest() throws DAOException  {
-		books = bookdao.findByTitle("The Adventures of Tom Sawyer");
+		books = bookdao.findBy("title", "The Adventures of Tom Sawyer");
 		for (Book book : books) {
 			Assert.assertEquals(book.getTitle(), "The Adventures of Tom Sawyer");
 		}
@@ -42,13 +42,13 @@ public class BookDAOTest {
 	
 	@Test
 	public void findByTitleNegativeTest() throws DAOException  {
-		books = bookdao.findByTitle("zdrh7894%^&%");
+		books = bookdao.findBy("title", "zdrh7894%^&%");
 		Assert.assertTrue(books.isEmpty());
 	}
 	
 	@Test
 	public void findByAuthorTest() throws DAOException {
-		books = bookdao.findByAuthor("Mark Twain");
+		books = bookdao.findBy("author", "Mark Twain");
 		for (Book book : books) {
 			Assert.assertEquals(book.getAuthor(), "Mark Twain");
 		}
@@ -56,13 +56,13 @@ public class BookDAOTest {
 	
 	@Test
 	public void findByAuthorNegativeTest() throws DAOException  {
-		books = bookdao.findByAuthor("zdrh7894%^&%");
+		books = bookdao.findBy("author", "zdrh7894%^&%");
 		Assert.assertTrue(books.isEmpty());
 	}
 	
 	@Test
 	public void findByYearTest() throws DAOException {
-		books = bookdao.findByYear(1876);
+		books = bookdao.findBy("year", "1876");
 		for (Book book : books) {
 			Assert.assertEquals(book.getYear(), 1876);
 		}
@@ -70,13 +70,13 @@ public class BookDAOTest {
 	
 	@Test
 	public void findByYearNegativeTest() throws DAOException  {
-		books = bookdao.findByYear(0);
+		books = bookdao.findBy("year", "0");
 		Assert.assertTrue(books.isEmpty());
 	}
 	
 	@Test
 	public void findByTextTest() throws DAOException {
-		books = bookdao.findByText("test");
+		books = bookdao.findBy("text", "test");
 		for (Book book : books) {
 			Assert.assertEquals(book.getText(), "test");
 		}
@@ -84,27 +84,27 @@ public class BookDAOTest {
 	
 	@Test
 	public void findByTextNegativeTest() throws DAOException  {
-		books = bookdao.findByText("zdrh7894%^&%");
+		books = bookdao.findBy("text", "zdrh7894%^&%");
 		Assert.assertTrue(books.isEmpty());
 	}
 	
 	@Test
 	public void findByGenreTest() throws DAOException {
-		books = bookdao.findByGenre("HISTORY");
+		books = bookdao.findBy("genre", "HISTORY");
 		for (Book book : books) {
-			Assert.assertEquals(book.getGenre(), "HISTORY");
+			Assert.assertEquals(book.getGenre().toString(), "HISTORY");
 		}
 	}
 	
 	@Test
 	public void findByGenreNegativeTest() throws DAOException  {
-		books = bookdao.findByGenre("zdrh7894%^&%");
+		books = bookdao.findBy("genre", "zdrh7894%^&%");
 		Assert.assertTrue(books.isEmpty());
 	}
 	
 	@Test
 	public void findByPagesTest() throws DAOException {
-		books = bookdao.findByPages(335);
+		books = bookdao.findBy("numberOfPages", "335");
 		for (Book book : books) {
 			Assert.assertEquals(book.getNumberOfPages(), 335);
 		}
@@ -112,7 +112,7 @@ public class BookDAOTest {
 	
 	@Test
 	public void findByPagesNegativeTest() throws DAOException  {
-		books = bookdao.findByPages(-10);
+		books = bookdao.findBy("numberOfPages", "-10");
 		Assert.assertTrue(books.isEmpty());
 	}
 	

@@ -29,6 +29,7 @@ public class View {
 			}
 		} while (!request.equalsIgnoreCase("exit"));
 		
+		sc.close();
 	}
 	
 }

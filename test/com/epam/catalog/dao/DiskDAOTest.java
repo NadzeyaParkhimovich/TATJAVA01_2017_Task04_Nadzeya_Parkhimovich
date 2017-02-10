@@ -3,7 +3,7 @@ package com.epam.catalog.dao;
 import org.testng.annotations.Test;
 
 import com.epam.catalog.bean.Disk;
-import com.epam.catalog.bean.MusicGenre;
+import com.epam.catalog.bean.genre.MusicGenre;
 import com.epam.catalog.dao.impl.DiskDAO;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -20,21 +20,21 @@ import org.testng.Assert;
 
 public class DiskDAOTest {
 	
-	Statement statement;
-	Connection connect;
-	ResultSet resultSet;
-	DiskDAO diskdao;
-	ArrayList<Disk> disks = new ArrayList<Disk>();
-	int id;
+	private Statement statement;
+	private Connection connect;
+	private ResultSet resultSet;
+	private DiskDAO diskdao;
+	private ArrayList<Disk> disks = new ArrayList<Disk>();
+	private int id;
 	
-	String selectQuery = "SELECT * FROM `disk`";
-	String updateQuery = "INSERT INTO `disk` (`title`,`author`,`year`,`text`,`genre`) VALUES (\"Orchid\",\"Opeth\",1995,\"test\",\"METAL\")";
-	String deleteQuery = "DELETE FROM `disk` WHERE `id`=";
+	private final static String selectQuery = "SELECT * FROM `disk`";
+	private final static String updateQuery = "INSERT INTO `disk` (`title`,`author`,`year`,`text`,`genre`) VALUES (\"Orchid\",\"Opeth\",1995,\"test\",\"METAL\")";
+	private final static String deleteQuery = "DELETE FROM `disk` WHERE `id`=";
 	
 	
 	@Test
 	public void findByTitleTest() throws DAOException  {
-		disks = diskdao.findByTitle("Orchid");
+		disks = diskdao.findBy("title", "Orchid");
 		for (Disk disk : disks) {
 			Assert.assertEquals(disk.getTitle(), "Orchid");
 		}
@@ -42,13 +42,13 @@ public class DiskDAOTest {
 	
 	@Test
 	public void findByTitleNegativeTest() throws DAOException  {
-		disks = diskdao.findByTitle("zdrh7894%^&%");
+		disks = diskdao.findBy("title", "zdrh7894%^&%");
 		Assert.assertTrue(disks.isEmpty());
 	}
 	
 	@Test
 	public void findByAuthorTest() throws DAOException {
-		disks = diskdao.findByAuthor("Opeth");
+		disks = diskdao.findBy("author", "Opeth");
 		for (Disk disk : disks) {
 			Assert.assertEquals(disk.getAuthor(), "Opeth");
 		}
@@ -56,13 +56,13 @@ public class DiskDAOTest {
 	
 	@Test
 	public void findByAuthorNegativeTest() throws DAOException  {
-		disks = diskdao.findByAuthor("zdrh7894%^&%");
+		disks = diskdao.findBy("author", "zdrh7894%^&%");
 		Assert.assertTrue(disks.isEmpty());
 	}
 	
 	@Test
 	public void findByYearTest() throws DAOException {
-		disks = diskdao.findByYear(1995);
+		disks = diskdao.findBy("year", "1995");
 		for (Disk disk : disks) {
 			Assert.assertEquals(disk.getYear(), 1995);
 		}
@@ -70,13 +70,13 @@ public class DiskDAOTest {
 	
 	@Test
 	public void findByYearNegativeTest() throws DAOException  {
-		disks = diskdao.findByYear(0);
+		disks = diskdao.findBy("year", "0");
 		Assert.assertTrue(disks.isEmpty());
 	}
 	
 	@Test
 	public void findByTextTest() throws DAOException {
-		disks = diskdao.findByText("test");
+		disks = diskdao.findBy("text", "test");
 		for (Disk disk : disks) {
 			Assert.assertEquals(disk.getText(), "test");
 		}
@@ -84,13 +84,13 @@ public class DiskDAOTest {
 	
 	@Test
 	public void findByTextNegativeTest() throws DAOException  {
-		disks = diskdao.findByText("zdrh7894%^&%");
+		disks = diskdao.findBy("text", "zdrh7894%^&%");
 		Assert.assertTrue(disks.isEmpty());
 	}
 	
 	@Test
 	public void findByGenreTest() throws DAOException {
-		disks = diskdao.findByGenre("METAL");
+		disks = diskdao.findBy("genre", "METAL");
 		for (Disk disk : disks) {
 			Assert.assertEquals(disk.getGenre().toString(), "METAL");
 		}
@@ -98,7 +98,7 @@ public class DiskDAOTest {
 	
 	@Test
 	public void findByGenreNegativeTest() throws DAOException  {
-		disks = diskdao.findByGenre("zdrh7894%^&%");
+		disks = diskdao.findBy("genre", "zdrh7894%^&%");
 		Assert.assertTrue(disks.isEmpty());
 	}
 	

@@ -3,7 +3,6 @@ package com.epam.catalog.service;
 import java.util.ArrayList;
 
 import com.epam.catalog.bean.News;
-import com.epam.catalog.dao.DAOException;
 
 public interface Service {
 	
@@ -14,5 +13,5 @@ public interface Service {
 	ArrayList<? extends News> findByText(String text) throws ServiceExeption;
 	ArrayList<? extends News> findByGenre(String genre) throws ServiceExeption;
 	void addNews(String news) throws ServiceExeption;
-	void close() throws ServiceExeption;
+	void close();
 }

@@ -3,7 +3,7 @@ package com.epam.catalog.dao;
 import org.testng.annotations.Test;
 
 import com.epam.catalog.bean.Film;
-import com.epam.catalog.bean.FilmGenre;
+import com.epam.catalog.bean.genre.FilmGenre;
 import com.epam.catalog.dao.impl.FilmDAO;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -20,21 +20,21 @@ import org.testng.Assert;
 
 public class FilmDAOTest {
 	
-	Statement statement;
-	Connection connect;
-	ResultSet resultSet;
-	FilmDAO filmdao;
-	ArrayList<Film> films = new ArrayList<Film>();
-	int id;
+	private Statement statement;
+	private Connection connect;
+	private ResultSet resultSet;
+	private FilmDAO filmdao;
+	private ArrayList<Film> films = new ArrayList<Film>();
+	private int id;
 	
-	String selectQuery = "SELECT * FROM `film`";
-	String updateQuery = "INSERT INTO `film` (`title`,`author`,`year`,`text`,`genre`) VALUES (\"Intouchables\",\"Nakache\",2011,\"test\",\"DRAMA\")";
-	String deleteQuery = "DELETE FROM `film` WHERE `id`=";
+	private final static  String selectQuery = "SELECT * FROM `film`";
+	private final static  String updateQuery = "INSERT INTO `film` (`title`,`author`,`year`,`text`,`genre`) VALUES (\"Intouchables\",\"Nakache\",2011,\"test\",\"DRAMA\")";
+	private final static  String deleteQuery = "DELETE FROM `film` WHERE `id`=";
 	
 	
 	@Test
 	public void findByTitleTest() throws DAOException  {
-		films = filmdao.findByTitle("Intouchables");
+		films = filmdao.findBy("title", "Intouchables");
 		for (Film film : films) {
 			Assert.assertEquals(film.getTitle(), "Intouchables");
 		}
@@ -42,13 +42,13 @@ public class FilmDAOTest {
 	
 	@Test
 	public void findByTitleNegativeTest() throws DAOException  {
-		films = filmdao.findByTitle("zdrh7894%^&%");
+		films = filmdao.findBy("title", "zdrh7894%^&%");
 		Assert.assertTrue(films.isEmpty());
 	}
 	
 	@Test
 	public void findByAuthorTest() throws DAOException {
-		films = filmdao.findByAuthor("Nakache");
+		films = filmdao.findBy("author", "Nakache");
 		for (Film film : films) {
 			Assert.assertEquals(film.getAuthor(), "Nakache");
 		}
@@ -56,13 +56,13 @@ public class FilmDAOTest {
 	
 	@Test
 	public void findByAuthorNegativeTest() throws DAOException  {
-		films = filmdao.findByAuthor("zdrh7894%^&%");
+		films = filmdao.findBy("author", "zdrh7894%^&%");
 		Assert.assertTrue(films.isEmpty());
 	}
 	
 	@Test
 	public void findByYearTest() throws DAOException {
-		films = filmdao.findByYear(2011);
+		films = filmdao.findBy("year", "2011");
 		for (Film film : films) {
 			Assert.assertEquals(film.getYear(), 2011);
 		}
@@ -70,13 +70,13 @@ public class FilmDAOTest {
 	
 	@Test
 	public void findByYearNegativeTest() throws DAOException  {
-		films = filmdao.findByYear(0);
+		films = filmdao.findBy("year", "0");
 		Assert.assertTrue(films.isEmpty());
 	}
 	
 	@Test
 	public void findByTextTest() throws DAOException {
-		films = filmdao.findByText("test");
+		films = filmdao.findBy("text", "test");
 		for (Film film : films) {
 			Assert.assertEquals(film.getText(), "test");
 		}
@@ -84,13 +84,13 @@ public class FilmDAOTest {
 	
 	@Test
 	public void findByTextNegativeTest() throws DAOException  {
-		films = filmdao.findByText("zdrh7894%^&%");
+		films = filmdao.findBy("text", "zdrh7894%^&%");
 		Assert.assertTrue(films.isEmpty());
 	}
 	
 	@Test
 	public void findByGenreTest() throws DAOException {
-		films = filmdao.findByGenre("DRAMA");
+		films = filmdao.findBy("genre", "DRAMA");
 		for (Film film : films) {
 			Assert.assertEquals(film.getGenre().toString(), "DRAMA");
 		}
@@ -98,7 +98,7 @@ public class FilmDAOTest {
 	
 	@Test
 	public void findByGenreNegativeTest() throws DAOException  {
-		films = filmdao.findByGenre("zdrh7894%^&%");
+		films = filmdao.findBy("genre", "zdrh7894%^&%");
 		Assert.assertTrue(films.isEmpty());
 	}
 	
