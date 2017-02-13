@@ -4,24 +4,45 @@ package com.epam.catalog.dao.impl;
 
 import java.sql.Connection; 
 import java.sql.DriverManager; 
-import java.sql.SQLException; 
+import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue; 
-import java.util.concurrent.BlockingQueue; 
+import java.util.concurrent.BlockingQueue;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger; 
 
 public final class ConnectionPool { 
 	
-	
+ private final static Logger LOG = LogManager.getRootLogger();
+
  private static ConnectionPool instance = null;
  private BlockingQueue<Connection> connectionQueue;  
  private BlockingQueue<Connection> givenAwayConQueue; 
  
- private final static String DRIVER_NAME = "com.mysql.jdbc.Driver";  
- private final static String URL = "jdbc:mysql://localhost/catalog";  
- private final static String USER = "root";  
- private final static String PASSWORD = "admin";  
- private final static int POLL_SIZE = 5; 
+ private static String driver_name;  
+ private static String url;
+ private static String user;  
+ private static String password;
+ private static int poll_size;
 
- private ConnectionPool() throws ConnectionPoolException {   
+ private ConnectionPool() throws ConnectionPoolException { 
+	 
+	 Locale ourLocale = new Locale("en", "GB", "WIN");  
+	 ResourceBundle rb = ResourceBundle.getBundle("_MyPropertiesFile", ourLocale);
+	 
+	 driver_name = rb.getString("db.driver").trim();
+	 url = rb.getString("db.url").trim();
+	 user = rb.getString("db.user").trim();
+	 password = rb.getString("db.password").trim();
+	 try {
+		 poll_size = Integer.parseInt(rb.getString("db.poolsize").trim());
+	 } catch (NumberFormatException e) {
+		 poll_size = 5;
+		 LOG.error(e);
+	 }
+	 	 
 	 initPoolData(); 
   } 
  
@@ -35,19 +56,19 @@ public final class ConnectionPool {
  public void initPoolData() throws ConnectionPoolException {   
 	 
 	 try {    
+		 Class.forName(driver_name);   
 		 
-		 Class.forName(DRIVER_NAME);   
-		 
-		 givenAwayConQueue = new ArrayBlockingQueue<Connection>(POLL_SIZE);    
-		 connectionQueue = new ArrayBlockingQueue<Connection>(POLL_SIZE);    
-		 
-		 for (int i = 0; i < POLL_SIZE; i++) {     
-			 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+		 givenAwayConQueue = new ArrayBlockingQueue<Connection>(poll_size);    
+		 connectionQueue = new ArrayBlockingQueue<Connection>(poll_size);    
+		 for (int i = 0; i < poll_size; i++) {     
+			 Connection connection = DriverManager.getConnection(url, user, password);
 			 connectionQueue.add(connection);
-			 }   
+			 }  
 		 } catch (SQLException e) {    
+			 LOG.error("SQLException in ConnectionPool", e);
 			 throw new ConnectionPoolException("SQLException in ConnectionPool",e);   
-		 } catch (ClassNotFoundException e) {    
+		 } catch (ClassNotFoundException e) {   
+			 LOG.error("Can't find database driver class", e);
 			 throw new ConnectionPoolException("Can't find database driver class", e);   
 		 } 
   } 
@@ -57,7 +78,7 @@ public final class ConnectionPool {
 		 closeConnectionsQueue(givenAwayConQueue);    
 		 closeConnectionsQueue(connectionQueue);   
 	} catch (SQLException e) {    
-		// logger.log(Level.ERROR, "Error closing the connection.", e);   
+		LOG.error("Error closing the connection.", e);   
 	} 
  } 
 

@@ -1,5 +1,8 @@
 package com.epam.catalog.controller.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.catalog.controller.Command;
 import com.epam.catalog.service.Service;
 import com.epam.catalog.service.ServiceExeption;
@@ -7,6 +10,8 @@ import com.epam.catalog.service.ServiceFactory;
 
 public class FindByTitle implements Command{
 
+	private final static Logger LOG = LogManager.getRootLogger();
+	
 	@Override
 	public String execute(String request) {
 		ServiceFactory sfactory = ServiceFactory.getInstance();
@@ -20,7 +25,7 @@ public class FindByTitle implements Command{
 				try {
 					response = Util.responseCreator(service.findByTitle(parts[2]), "Title", parts[2]);
 				} catch (ServiceExeption e) {
-					//log
+					LOG.error(e);
 					response = "Sorry, we have problems in finding films by Title";
 				}
 			} else {
@@ -30,7 +35,7 @@ public class FindByTitle implements Command{
 					try {
 						response = Util.responseCreator(service.findByTitle(parts[2]), "Title", parts[2]);
 					} catch (ServiceExeption e) {
-						//log
+						LOG.error(e);
 						response = "Sorry, we have problems in finding books by Title";
 					}
 				} else {
@@ -40,17 +45,19 @@ public class FindByTitle implements Command{
 					try {
 						response = Util.responseCreator(service.findByTitle(parts[2]), "Title", parts[2]);
 					} catch (ServiceExeption e) {
-						//log
+						LOG.error(e);
 						response = "Sorry, we have problems in finding disks by Title";
 					}
 				
 				} else {
+					LOG.info("incorrect request");
 					response = "Sorry, incorrect request";
 				}
 			}
 		}
 		}else {
-		response = "Sorry, incorrect request";
+			LOG.info("incorrect request");
+			response = "Sorry, incorrect request";
 	}
 		return response;
 	}

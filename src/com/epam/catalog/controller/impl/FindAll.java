@@ -1,5 +1,8 @@
 package com.epam.catalog.controller.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.catalog.controller.Command;
 import com.epam.catalog.service.Service;
 import com.epam.catalog.service.ServiceExeption;
@@ -7,6 +10,8 @@ import com.epam.catalog.service.ServiceFactory;
 
 public class FindAll implements Command{
 
+	private final static Logger LOG = LogManager.getRootLogger();
+	
 	@Override
 	public String execute(String request) {
 		
@@ -23,7 +28,7 @@ public class FindAll implements Command{
 					response = Util.responseCreator(service.findAll(), "All", "films");
 					
 				} catch (ServiceExeption e) {
-					//log
+					LOG.error(e);
 					response = "Sorry, we have problems in finding films";
 				}
 			} else {
@@ -33,7 +38,7 @@ public class FindAll implements Command{
 					try {
 						response = Util.responseCreator(service.findAll(), "All", "books");
 					} catch (ServiceExeption e) {
-						//log
+						LOG.error(e);
 						response = "Sorry, we have problems in finding books";
 					}
 				} else {
@@ -43,15 +48,17 @@ public class FindAll implements Command{
 						try {
 							response = Util.responseCreator(service.findAll(), "All", "disks");
 						} catch (ServiceExeption e) {
-							//log
+							LOG.error(e);
 							response = "Sorry, we have problems in finding disks";
 						}
 					} else {
+						LOG.info("incorrect request");
 						response = "Sorry, incorrect request";
 					}
 				}
 			}
 		} else {
+			LOG.info("incorrect request");
 			response = "Sorry, incorrect request";
 		}
 		 

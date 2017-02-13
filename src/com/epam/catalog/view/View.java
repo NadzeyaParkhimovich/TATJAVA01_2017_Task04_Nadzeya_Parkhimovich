@@ -1,7 +1,6 @@
 package com.epam.catalog.view;
 
 import java.util.Scanner;
-
 import com.epam.catalog.controller.Controller;
 
 public class View {
@@ -10,7 +9,6 @@ public class View {
 		
 		Controller controller = new Controller();
 		Scanner sc = new Scanner(System.in);
-		
 		System.out.println("Available commans with examples:");
 		System.out.println("FIND_ALL       find_all@book/film/disk\n" +
 				 "FIND_BY_TITLE  find_by_title@book/film/disk@your title\n" +
@@ -28,7 +26,6 @@ public class View {
 				System.out.println(controller.executeTask(request));
 			}
 		} while (!request.equalsIgnoreCase("exit"));
-		
 		sc.close();
 	}
 	

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <!-- Секция аппендеров -->
+  <Appenders>
+    <!-- Файловый аппендер -->
+    <Console name="STDOUT" target="SYSTEM_OUT">
+		<PatternLayout pattern="%d{ABSOLUTE} [%-5p] (%F:%L) - %m%n" />
+	</Console>
+	<File name="FILE" fileName="D:\Projects\Catalog\log.log">
+		<PatternLayout pattern="%d{ISO8601} [%-5p] (%F:%L) - %m%n"/>
+	</File>
+  </Appenders>
+  <!-- Секция логгеров -->
+  <Loggers>
+    <!-- Корневой логгер -->
+    <Root level="trace">
+      <AppenderRef ref="FILE"/>
+    </Root>
+  </Loggers>
+</Configuration> 

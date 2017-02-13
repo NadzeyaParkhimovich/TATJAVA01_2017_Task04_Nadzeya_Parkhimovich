@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.catalog.bean.Film;
 import com.epam.catalog.bean.News;
 import com.epam.catalog.bean.genre.FilmGenre;
@@ -14,7 +17,9 @@ import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 
 public class FilmDAO implements NewsDAO {
-		
+	
+	private final static Logger LOG = LogManager.getRootLogger();
+	
 	private ConnectionPool cp;
 	private Connection con;
 	private PreparedStatement ps;
@@ -32,14 +37,14 @@ public class FilmDAO implements NewsDAO {
 			return filmsCreator(st.executeQuery(select_all));
 			
 		} catch (ConnectionPoolException | SQLException e) {
-			
+			LOG.error(e);
 			throw new DAOException(e);
 			
 		} finally {
 			try {
 				cp.returnConnection(con);
 			} catch (ConnectionPoolException e) {
-				//log
+				LOG.error(e);
 			}
 		}
 	}
@@ -48,17 +53,19 @@ public class FilmDAO implements NewsDAO {
 		try {
 			cp = ConnectionPool.getInstance();
 			con = cp.takeConnection();
-			ps = con.prepareStatement(select_by + type + "`= ?");
-			ps.setString(1, value);
+			//Поиск по части слова, предложения
+			ps = con.prepareStatement(select_by + type + "` LIKE ?");
+			ps.setString(1, "%" + value + "%");
 			return filmsCreator(ps.executeQuery());
 			
 		}catch (ConnectionPoolException | SQLException e) {
+			LOG.error(e);
 			throw new DAOException(e);
 		}finally {
 			try {
 				cp.returnConnection(con);
 			} catch (ConnectionPoolException e) {
-				//log
+				LOG.error(e);
 			}
 		}
 	}
@@ -77,15 +84,17 @@ public class FilmDAO implements NewsDAO {
 				ps.setString(5, film.getGenre().toString());
 				ps.executeUpdate();
 			}catch (ConnectionPoolException | SQLException e) {
+				LOG.error(e);
 				throw new DAOException(e);
 			}finally {
 				try {
 					cp.returnConnection(con);
 				} catch (ConnectionPoolException e) {
-					//log
+					LOG.error(e);
 				}
 			}
 		} else {
+			LOG.error("Incorrect type of news");
 			throw new DAOException("Incorrect type of news");
 		}
 	}
@@ -102,7 +111,7 @@ public class FilmDAO implements NewsDAO {
 				cp.dispose();
 			}
 		} catch (SQLException e) {
-			//log
+			LOG.error(e);
 		}
 	}
 	

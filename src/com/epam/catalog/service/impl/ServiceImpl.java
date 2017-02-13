@@ -6,6 +6,9 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.catalog.bean.Book;
 import com.epam.catalog.bean.Disk;
 import com.epam.catalog.bean.Film;
@@ -20,6 +23,8 @@ import com.epam.catalog.service.ServiceExeption;
 
 public class ServiceImpl implements Service{
 
+	private final static Logger LOG = LogManager.getRootLogger();
+	
 	private final static String  STRING_VERIFICATION = "[\\s\\wа-яёА-ЯЁ-]{0,45}";
 	private NewsDAO dao;
 	private String type;
@@ -34,6 +39,7 @@ public class ServiceImpl implements Service{
 		try {
 			return dao.findAll();
 		} catch (DAOException e) {
+			LOG.error(e);
 			throw new ServiceExeption(e);
 		}
 	}
@@ -44,9 +50,11 @@ public class ServiceImpl implements Service{
 			try {
 				return dao.findBy("title", title);
 			} catch (DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 		} else {
+			LOG.warn("Incorrect title");
 			throw new ServiceExeption("Incorrect title");
 		}
 		
@@ -58,9 +66,11 @@ public class ServiceImpl implements Service{
 			try {
 				return dao.findBy("author", author);
 			} catch (DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 		} else {
+			LOG.warn("Incorrect author");
 			throw new ServiceExeption("Incorrect author");
 		}
 		
@@ -72,9 +82,11 @@ public class ServiceImpl implements Service{
 			if (yearChecker(year)) {
 				return dao.findBy("year", year);
 			} else {
+				LOG.warn("Incorrect year!");
 				throw new ServiceExeption("Incorrect year!");
 			}
 		} catch (DAOException | NumberFormatException e) {
+			LOG.error(e);
 			throw new ServiceExeption(e);
 		}
 	}
@@ -84,6 +96,7 @@ public class ServiceImpl implements Service{
 		try {
 			return dao.findBy("text", text);
 		} catch (DAOException e) {
+			LOG.error(e);
 			throw new ServiceExeption(e);
 		}
 	}
@@ -92,28 +105,32 @@ public class ServiceImpl implements Service{
 	public ArrayList<? extends News> findByGenre(String genre) throws ServiceExeption {
 		if (type.equals("film")) {
 			try {
-				FilmGenre.valueOf(genre);
+				FilmGenre.valueOf(genre.toUpperCase());
 				return dao.findBy("genre", genre);
 			} catch (IllegalArgumentException | DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 		} else {
 			if (type.equals("book")) {
 				try {
-					BookGenre.valueOf(genre);
+					BookGenre.valueOf(genre.toUpperCase());
 					return dao.findBy("genre", genre);
 				} catch (IllegalArgumentException | DAOException e) {
+					LOG.error(e);
 					throw new ServiceExeption(e);
 				}
 			} else {
 				if (type.equals("disk")) {
 					try {
-						MusicGenre.valueOf(genre);
+						MusicGenre.valueOf(genre.toUpperCase());
 						return dao.findBy("genre", genre);
 					} catch (IllegalArgumentException | DAOException e) {
+						LOG.error(e);
 						throw new ServiceExeption(e);
 					}
 				} else {
+					LOG.error("Illegal type of product");
 					throw new ServiceExeption("Illegal type of product");
 				}
 			}
@@ -135,18 +152,22 @@ public class ServiceImpl implements Service{
 							Film film = new Film(parts[0], parts[1], year, parts[3], FilmGenre.valueOf(parts[4]));
 							dao.addNews(film);
 						} else {
+							LOG.warn("Incorrect author!");
 							throw new ServiceExeption("Incorrect author!");
 						}
 						
 					} else {
+						LOG.warn("Incorrect title!");
 						throw new ServiceExeption("Incorrect title!");
 					}
 					
 				} else {
+					LOG.warn("Incorrect year!");
 					throw new ServiceExeption("Incorrect year!");
 				}
 				
 			} catch (IllegalArgumentException | DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 			
@@ -165,20 +186,25 @@ public class ServiceImpl implements Service{
 							if (stringChecker(parts[1])) {
 								Book book = new Book(parts[0], parts[1], Integer.parseInt(parts[2]), parts[3], BookGenre.valueOf(parts[4]), numberOfPages);
 								dao.addNews(book);
-							} else {
+							} else {							
+								LOG.warn("Incorrect author!");
 								throw new ServiceExeption("Incorrect author!");
 							}
 						} else {
+							LOG.warn("Incorrect title!");
 							throw new ServiceExeption("Incorrect title!");
 						}
 					} else {
+						LOG.warn("Incorrect numberOfPages!");
 						throw new ServiceExeption("Incorrect numberOfPages!");
 					}
 				} else {
+					LOG.warn("Incorrect year!");
 					throw new ServiceExeption("Incorrect year!");
 				}
 				
 			} catch (IllegalArgumentException | DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 			
@@ -196,15 +222,19 @@ public class ServiceImpl implements Service{
 							Disk disk = new Disk(parts[0], parts[1], Integer.parseInt(parts[2]), parts[3], MusicGenre.valueOf(parts[4]));
 							dao.addNews(disk);
 						} else {
+							LOG.warn("Incorrect author!");
 							throw new ServiceExeption("Incorrect author!");
 						}
 					} else {
+						LOG.warn("Incorrect title!");
 						throw new ServiceExeption("Incorrect title!");
 					}
 				}else {
+					LOG.warn("Incorrect year!");
 					throw new ServiceExeption("Incorrect year!");
 				}
 			} catch (IllegalArgumentException | DAOException e) {
+				LOG.error(e);
 				throw new ServiceExeption(e);
 			}
 			

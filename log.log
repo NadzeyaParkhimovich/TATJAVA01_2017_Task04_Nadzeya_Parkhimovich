@@ -1,0 +1,4 @@
+2017-02-13T11:58:59,698 [ERROR] (View.java:18) - !!!!
+2017-02-13T11:58:59,698 [DEBUG] (View.java:19) - ????????
+2017-02-13T12:27:39,383 [ERROR] (ServiceImpl.java:111) - java.lang.IllegalArgumentException: No enum constant com.epam.catalog.bean.genre.FilmGenre.drama
+2017-02-13T12:27:39,399 [ERROR] (FindByGenre.java:29) - com.epam.catalog.service.ServiceExeption: java.lang.IllegalArgumentException: No enum constant com.epam.catalog.bean.genre.FilmGenre.drama

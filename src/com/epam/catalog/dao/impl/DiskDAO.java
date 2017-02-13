@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.catalog.bean.Disk;
 import com.epam.catalog.bean.News;
 import com.epam.catalog.bean.genre.MusicGenre;
@@ -14,6 +17,8 @@ import com.epam.catalog.dao.DAOException;
 import com.epam.catalog.dao.NewsDAO;
 
 public class DiskDAO implements NewsDAO{
+	
+	private final static Logger LOG = LogManager.getRootLogger();
 	
 	private ConnectionPool cp;
 	private Connection con;
@@ -32,14 +37,14 @@ public class DiskDAO implements NewsDAO{
 			return disksCreator(st.executeQuery(select_all));
 			
 		} catch (ConnectionPoolException | SQLException e) {
-			
+			LOG.error(e);
 			throw new DAOException(e);
 			
 		} finally {
 			try {
 				cp.returnConnection(con);
 			} catch (ConnectionPoolException e) {
-				//log
+				LOG.error(e);
 			}
 		}
 	}
@@ -48,17 +53,19 @@ public class DiskDAO implements NewsDAO{
 		try {
 			cp = ConnectionPool.getInstance();
 			con = cp.takeConnection();
-			ps = con.prepareStatement(select_by + type + "`= ?");
-			ps.setString(1, value);
+			//Поиск по части слова, предложения
+			ps = con.prepareStatement(select_by + type + "` LIKE ?");
+			ps.setString(1, "%" + value + "%");
 			return disksCreator(ps.executeQuery());
 			
 		}catch (ConnectionPoolException | SQLException e) {
+			LOG.error(e);
 			throw new DAOException(e);
 		}finally {
 			try {
 				cp.returnConnection(con);
 			} catch (ConnectionPoolException e) {
-				//log
+				LOG.error(e);
 			}
 		}
 	}
@@ -77,15 +84,17 @@ public class DiskDAO implements NewsDAO{
 				ps.setString(5, disk.getGenre().toString());
 				ps.executeUpdate();
 			}catch (ConnectionPoolException | SQLException e) {
+				LOG.error(e);
 				throw new DAOException(e);
 			}finally {
 				try {
 					cp.returnConnection(con);
 				} catch (ConnectionPoolException e) {
-					//log
+					LOG.error(e);
 				}
 			}
 		} else {
+			LOG.error("Incorrect type of news");
 			throw new DAOException("Incorrect type of news");
 		}
 	}
@@ -102,7 +111,7 @@ public class DiskDAO implements NewsDAO{
 				cp.dispose();
 			}
 		} catch (SQLException e) {
-			//log
+			LOG.error(e);
 		}
 	}
 	
