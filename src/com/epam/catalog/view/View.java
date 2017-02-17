@@ -9,7 +9,7 @@ public class View {
 		
 		Controller controller = new Controller();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Available commans with examples:");
+		System.out.println("Available commands with examples:");
 		System.out.println("FIND_ALL       find_all@book/film/disk\n" +
 				 "FIND_BY_TITLE  find_by_title@book/film/disk@your title\n" +
 				 "FIND_BY_AUTHOR find_by_author@book/film/disk@your author\n" +

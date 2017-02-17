@@ -21,15 +21,14 @@ public class DiskDAO implements NewsDAO{
 	private final static Logger LOG = LogManager.getRootLogger();
 	
 	private ConnectionPool cp;
-	private Connection con;
-	private PreparedStatement ps;
-	private Statement st;
-	
+		
 	private final static String select_all = "SELECT * FROM `disk`";
 	private final static String select_by = "SELECT * FROM `disk` WHERE `";
 	private final static String insert = "INSERT INTO `disk` (`title`,`author`,`year`,`text`,`genre`) VALUES (?,?,?,?,?)";
 	
 	public ArrayList<Disk> findAll() throws DAOException {
+		Connection con = null;
+		Statement st = null;
 		try {
 			cp = ConnectionPool.getInstance();
 			con = cp.takeConnection();
@@ -42,14 +41,17 @@ public class DiskDAO implements NewsDAO{
 			
 		} finally {
 			try {
+				st.close();
 				cp.returnConnection(con);
-			} catch (ConnectionPoolException e) {
+			} catch (ConnectionPoolException | SQLException e) {
 				LOG.error(e);
 			}
 		}
 	}
 	
 	public ArrayList<Disk> findBy(String type, String value) throws DAOException {
+		Connection con = null;
+		PreparedStatement ps = null;
 		try {
 			cp = ConnectionPool.getInstance();
 			con = cp.takeConnection();
@@ -63,14 +65,17 @@ public class DiskDAO implements NewsDAO{
 			throw new DAOException(e);
 		}finally {
 			try {
+				ps.close();
 				cp.returnConnection(con);
-			} catch (ConnectionPoolException e) {
+			} catch (ConnectionPoolException | SQLException e) {
 				LOG.error(e);
 			}
 		}
 	}
 	
 	public void addNews(News news) throws DAOException {
+		Connection con = null;
+		PreparedStatement ps = null;
 		if (news instanceof Disk) {
 			Disk disk = (Disk)news;
 			try {
@@ -88,8 +93,9 @@ public class DiskDAO implements NewsDAO{
 				throw new DAOException(e);
 			}finally {
 				try {
+					ps.close();
 					cp.returnConnection(con);
-				} catch (ConnectionPoolException e) {
+				} catch (ConnectionPoolException | SQLException e) {
 					LOG.error(e);
 				}
 			}
@@ -100,18 +106,8 @@ public class DiskDAO implements NewsDAO{
 	}
 	
 	public void closeConnection() {	
-		try {
-			if (st != null) {
-				st.close();
-			}
-			if (ps != null) {
-				ps.close();
-			}
-			if (cp != null) {
-				cp.dispose();
-			}
-		} catch (SQLException e) {
-			LOG.error(e);
+		if (cp != null) {
+			cp.dispose();
 		}
 	}
 	

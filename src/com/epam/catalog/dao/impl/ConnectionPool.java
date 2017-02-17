@@ -97,7 +97,7 @@ public final class ConnectionPool {
  
  public void returnConnection(Connection c) throws ConnectionPoolException {
 		try {
-			if (!c.isClosed()) {
+			if (!c.isClosed() && c != null) {
 				
 				givenAwayConQueue.remove(c);
 				connectionQueue.add(c);
